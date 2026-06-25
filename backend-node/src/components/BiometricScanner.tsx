@@ -42,15 +42,15 @@ export default function BiometricScanner() {
     if (!videoRef.current || !canvasRef.current) return null;
     const v = videoRef.current;
     const c = canvasRef.current;
-    c.width = v.videoWidth || 640;
-    c.height = v.videoHeight || 480;
+    c.width = 320;
+    c.height = 240;
     const ctx = c.getContext("2d");
     if (!ctx) return null;
     // Amélioration luminosité pour pièces sombres
     ctx.filter = `brightness(${brightness}) contrast(1.3) saturate(1.1)`;
     ctx.drawImage(v, 0, 0);
     ctx.filter = "none";
-    return c.toDataURL("image/jpeg", 0.92).split(",")[1];
+    return c.toDataURL("image/jpeg", 0.70).split(",")[1];
   }
 
   async function doScan() {
@@ -62,7 +62,10 @@ export default function BiometricScanner() {
       const body: any = { image: imageB64 };
       if (mode==="register" && registerName.trim()) body.name = registerName.trim();
       const res = await fetch(endpoint, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body) });
-      const data = await res.json();
+      const text = await res.text();
+      let data: any;
+      try { data = JSON.parse(text); }
+      catch(e) { throw new Error("Service biométrique indisponible — " + text.substring(0,80)); }
       setResult(data);
       setHistory(h=>[data,...h.slice(0,9)]);
       if (data.success && mode==="register") setRegisterName("");
