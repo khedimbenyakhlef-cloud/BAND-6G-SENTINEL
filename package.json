@@ -1,0 +1,14 @@
+{
+  "name": "band-6g-sentinel",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": ["frontend", "backend-node"],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=backend-node\" \"npm run dev --workspace=frontend\"",
+    "build": "npm run build --workspace=frontend && npm run build --workspace=backend-node",
+    "start": "npm run start --workspace=backend-node"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}

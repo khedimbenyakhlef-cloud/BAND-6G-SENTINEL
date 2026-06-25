@@ -1,0 +1,56 @@
+services:
+  - type: web
+    name: band6g-backend
+    runtime: node
+    rootDir: backend-node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    plan: free
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: GROQ_API_KEY_1
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_FROM_NUMBER
+        sync: false
+      - key: BREVO_API_KEY
+        sync: false
+      - key: BIOMETRIC_API_URL
+        sync: false
+
+  - type: web
+    name: band6g-biometric
+    runtime: python3
+    rootDir: backend-python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: GROQ_API_KEY_1
+        sync: false
+      - key: GROQ_API_KEY_2
+        sync: false
+      - key: GROQ_API_KEY_3
+        sync: false
+      - key: MONGO_URI
+        sync: false
+      - key: BACKBLAZE_KEY_ID
+        sync: false
+      - key: BACKBLAZE_APP_KEY
+        sync: false
+      - key: BACKBLAZE_BUCKET
+        sync: false
