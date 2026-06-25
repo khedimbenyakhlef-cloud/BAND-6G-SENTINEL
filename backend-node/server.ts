@@ -1197,7 +1197,7 @@ async function startServer() {
   });
 }
 
-startServer();
+
 
 // ═══════════════════════════════════════════════════════
 //   BAND-6G SENTINEL — PROXY BIOMÉTRIE (KHEDIM IA)
@@ -1360,3 +1360,5 @@ app.get("/api/sentinel/stats", (req, res) => {
     },
   });
 });
+
+startServer();
